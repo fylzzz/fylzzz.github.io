@@ -3,3 +3,19 @@ h1 {
   text-align: center;
   font-family: "Times New Roman";
 }
+
+.project-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.project-layout > div {
+  flex: 1;
+}
+
+.project-layout iframe {
+  width: 560px;
+  height: 315px;
+  flex-shrink: 0;
+}
