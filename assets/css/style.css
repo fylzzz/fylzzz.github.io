@@ -217,3 +217,46 @@ section + section { margin-top: 48px; }
 @media (max-width: 440px) {
   .gallery { grid-template-columns: 1fr; }
 }
+
+/* ---------- inline code ---------- */
+code {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+
+/* ---------- architecture diagram ---------- */
+.diagram {
+  margin: 20px 0 28px;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.diagram svg { width: 100%; height: auto; display: block; }
+.d-box { fill: var(--bg); stroke: var(--border); stroke-width: 1.5; }
+.d-accent { stroke: var(--accent); }
+.d-platform { fill: transparent; stroke-dasharray: 5 4; }
+.d-l { stroke: var(--muted); stroke-width: 1.5; }
+.d-t { fill: var(--text); font: 600 15px Inter, system-ui, sans-serif; text-anchor: middle; }
+.d-s { fill: var(--muted); font: 12.5px Inter, system-ui, sans-serif; text-anchor: middle; }
+
+/* ---------- card without a screenshot ---------- */
+.card-banner {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  background:
+    linear-gradient(var(--border) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, var(--border) 1px, transparent 1px) 0 0 / 28px 28px,
+    var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.card-banner strong { font-size: 2.4rem; letter-spacing: 0.04em; }
+.card-banner span { color: var(--muted); font-size: 0.9rem; }

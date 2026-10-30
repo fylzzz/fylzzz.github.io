@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>William Bartlett - EnGen7</title>
+  <meta name="description" content="EnGen7: a custom C++ ECS game engine for Nintendo Wii homebrew, plus two games built on it.">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">William Bartlett</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="cv.html">CV</a>
+        <a href="engen7.html" aria-current="page">EnGen7</a>
+        <a href="tools.html">Tools</a>
+        <a href="riffs-of-resistance.html">Riffs of Resistance</a>
+        <a href="below-deck.html">Below Deck</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>EnGen7</h1>
+    <!-- Hero image: add a screenshot or photo of the engine running on a Wii, e.g.
+    <img class="hero-img" src="assets/img/engen7-hero.png" alt="EnGen7 running on Wii hardware">
+    -->
+    <p class="lead">A custom C++ game engine for Generation 7 console homebrew (currently limited to Nintendo Wii), built around an Entity Component System. I've used it to ship a game jam entry and an experimental Balance Board shooter, and I'm currently extending it with 3D rigid-body physics.</p>
+
+    <p><a class="btn" href="https://github.com/fylzzz/wiiEngine" target="_blank" rel="noopener">See project on GitHub</a></p>
+
+    <div class="split">
+      <div>
+        <h3>Built with</h3>
+        <ul>
+          <li>C++ with devkitPPC / libogc2</li>
+          <li>raylib4Gamecube + OpenGX (raylib with an OpenGL 1.1 wrapper for the Wii's GX GPU)</li>
+          <li>WPAD / wiiuse for peripherals input</li>
+          <li>ASND for sound and music</li>
+          <li>Tested on real hardware and in Dolphin</li>
+        </ul>
+      </div>
+      <div>
+        <p>Most of my experience before EnGen7 was inside Unity and Unreal. I wanted to understand what an engine is actually doing underneath, and the Wii is a great (and nostalgic) platform to learn on, with robust homebrew support</p>
+        <p>Building for constrained hardware has shaped most of my design decisions, from how components are stored to how audio is streamed.</p>
+      </div>
+    </div>
+
+    <!-- ===================== ENGINE ===================== -->
+    <section id="engine">
+      <h2>Engine Architecture</h2>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 760 330" role="img" aria-label="EnGen7 architecture: Scenes run on a World facade over Entity, Component and System managers. Systems render, simulate physics, animate and play audio on top of raylib4Gamecube and libogc2.">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/>
+            </marker>
+          </defs>
+          <!-- scenes -->
+          <rect x="230" y="10" width="300" height="44" rx="8" class="d-box"/>
+          <text x="380" y="37" class="d-t">SceneManager → Scenes</text>
+          <line x1="380" y1="54" x2="380" y2="80" class="d-l" marker-end="url(#arr)"/>
+          <!-- world -->
+          <rect x="230" y="82" width="300" height="44" rx="8" class="d-box d-accent"/>
+          <text x="380" y="109" class="d-t">World (facade)</text>
+          <line x1="300" y1="126" x2="130" y2="160" class="d-l" marker-end="url(#arr)"/>
+          <line x1="380" y1="126" x2="380" y2="160" class="d-l" marker-end="url(#arr)"/>
+          <line x1="460" y1="126" x2="630" y2="160" class="d-l" marker-end="url(#arr)"/>
+          <!-- managers -->
+          <rect x="20" y="162" width="220" height="56" rx="8" class="d-box"/>
+          <text x="130" y="186" class="d-t">EntityManager</text>
+          <text x="130" y="206" class="d-s">IDs + component signatures</text>
+          <rect x="270" y="162" width="220" height="56" rx="8" class="d-box"/>
+          <text x="380" y="186" class="d-t">ComponentManager</text>
+          <text x="380" y="206" class="d-s">packed arrays, compile-time type IDs</text>
+          <rect x="520" y="162" width="220" height="56" rx="8" class="d-box"/>
+          <text x="630" y="186" class="d-t">SystemManager</text>
+          <text x="630" y="206" class="d-s">systems match on signature</text>
+          <line x1="630" y1="218" x2="630" y2="244" class="d-l" marker-end="url(#arr)"/>
+          <!-- systems -->
+          <rect x="20" y="246" width="720" height="34" rx="8" class="d-box"/>
+          <text x="380" y="268" class="d-t">Render · Physics · Animation · Audio</text>
+          <!-- platform -->
+          <rect x="20" y="290" width="720" height="34" rx="8" class="d-box d-platform"/>
+          <text x="380" y="312" class="d-s">raylib4Gamecube (OpenGL 1.1)  ·  libogc2: WPAD, ASND, SD card  ·  Wii hardware</text>
+        </svg>
+      </figure>
+
+      <p>EnGen7 follows a classic ECS layout. Entities are just IDs. Components are plain data stored in tightly packed arrays, and systems iterate over every entity whose component signature matches what they need. A <code>World</code> class sits on top as a single facade, so game code never has to talk to the individual managers directly. Component type IDs are generated at compile time, which avoids relying on RTTI, saving memory space.</p>
+      <p>Games are split into scenes managed by a <code>SceneManager</code>, and a scene's world can be serialised out and loaded back in, including components that aren't plain-old-data.</p>
+
+      <div class="skills">
+        <div class="panel">
+          <h3>Rendering</h3>
+          <ul>
+            <li>2D sprites drawn in Z-order (sorted with a <code>std::multimap</code>)</li>
+            <li>3D model rendering with a follow camera</li>
+            <li>Sprite animation system</li>
+            <li>Frame-rate independent updates using libogc's hardware timer</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Physics</h3>
+          <ul>
+            <li>2D AABB and circle collision with a QuadTree broad phase</li>
+            <li>3D box colliders with an Octree broad phase</li>
+            <li>2D rigid bodies</li>
+            <li><em>In progress:</em> 3D rigid-body physics</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Input</h3>
+          <ul>
+            <li>Wii Remote buttons and IR pointer</li>
+            <li>MotionPlus gyroscope with calibration and deadzone</li>
+            <li>Wii Balance Board with software tare</li>
+            <li>raygui menus driven by the Wii Remote pointer</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Audio</h3>
+          <ul>
+            <li><code>AudioManager</code> for one-shot sound effects</li>
+            <li><code>MusicStream</code> for double-buffered music streaming</li>
+            <li>WAV decoding with dr_wav, playback through the DSP via ASND</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Challenges</h3>
+      <ul>
+        <li>No memory protection
+          <ul>
+            <li>Reading a component from a destroyed entity doesn't throw an error on the Wii, it crashes the console. I had to be deliberate about entity lifetimes, guarding every component lookup and making sure game state couldn't touch an entity after it was destroyed.</li>
+          </ul>
+        </li>
+        <li>Audio on the Wii's DSP
+          <ul>
+            <li>raylib's audio module can't link on the Wii, so I wrote my own on top of ASND, using only raylib's decoder headers.</li>
+          </ul>
+        </li>
+        <li>Rendering on a fixed-function pipeline
+          <ul>
+            <li>Mixing my own OpenGL matrix setup with raylib's internal matrix tracking caused 3D models to silently vanish. Moving fully onto raylib's camera functions kept the two in sync.</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===================== RFDS ===================== -->
+    <section id="rfds">
+      <h2>RFDS Game Jam</h2>
+      
+      <img class="hero-img" src="assets/img/rfds-game.png" alt="RFDS game jam entry">
+      <!--<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="RFDS game jam gameplay" allow="fullscreen" allowfullscreen loading="lazy"></iframe></div>
+      -->
+      <!-- TODO: check this intro. Add the jam's date/length, the brief, your team (if any) and any result. -->
+      <p>The first real test of the engine was the RFDS Game Jam, where I built a collection of motion-controlled medical microgames for the Wii. Each microgame is its own scene, launched from a main menu, and each uses a different Wii input: pointing with the Wii Remote, or physically twisting it using the MotionPlus gyroscope.</p>
+
+      <div class="split">
+        <div>
+          <h3>Features</h3>
+          <ul>
+            <li>Five microgames plus a main menu, each a separate scene (needle, gauze, bottle, patch and baby-target games)</li>
+            <!-- TODO: optionally replace the line above with a one-line description of each microgame -->
+            <li>Menus built with raygui and driven by the Wii Remote's IR pointer</li>
+            <li>Rotation-based gameplay using the MotionPlus gyroscope</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Challenges</h3>
+          <ul>
+            <li>MotionPlus calibration
+              <ul><li>The gyroscope reports raw sensor counts, not degrees. I added a calibration pass at rest, a scale factor to convert to degrees per second, and a deadzone to stop noise from slowly drifting the rotation.</li></ul>
+            </li>
+            <li>Controller reconnection
+              <ul><li>MotionPlus silently stayed off if it was enabled before the remote connected or after a Bluetooth drop. I changed it to keep retrying until the expansion was confirmed active.</li></ul>
+            </li>
+            <li>IR pointer conflicts
+              <ul><li>Enabling MotionPlus switches the Wii Remote into a report mode that drops IR data, which broke the menu pointer. Enabling it only inside the scenes that need it fixed both.</li></ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p>The jam proved that the engine could carry a complete game from start to finish, which is what convinced me to keep building on it.</p>
+    </section>
+
+    <!-- ===================== BALANCE BOARD ===================== -->
+    <section id="balance-board">
+      <h2>Starboard</h2>
+      <img class="hero-img" src="assets/img/starboard.png" alt="Balance Board shooter gameplay">
+      <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/LnwJztv6O9A" title="Balance Board shooter gameplay" allow="fullscreen" allowfullscreen loading="lazy"></iframe></div>
+
+      <p>A Star Fox-style on-rails shooter where the only controller is the Wii Balance Board. You steer your ship by shifting your weight. I made it for GFS Academy with the intent of presenting it at the 2026 Experimental Games Conference, and the engine-side work also formed part of my Experimental Practice unit.</p>
+      <p>Motion controls and exergaming were everywhere 10 to 15 years ago, but outside of VR and health-focused titles they've mostly disappeared. The goal was to take a genre built for a traditional controller and see whether it still holds up when your whole body is the input.</p>
+
+      <div class="split">
+        <div>
+          <h3>Features</h3>
+          <ul>
+            <li>Balance Board steering using the player's centre of pressure</li>
+            <li>3D player ship with a camera that follows it</li>
+            <li>Timed enemy waves, collision, lives and a menu/play/game-over loop</li>
+          </ul>
+          <h3>Details</h3>
+          <ul>
+            <li>Reads the board's four pressure sensors and converts them into a -1 to 1 lean on each axis</li>
+            <li>Software tare: averages around 60 frames with the board empty and subtracts it from later readings</li>
+            <li>Maps the lean into world space, rather than screen pixels, so the camera can track the ship</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Challenges</h3>
+          <ul>
+            <li>Getting the board to talk to the engine
+              <ul><li>Modern libogc gives the Balance Board its own dedicated channel rather than treating it as an expansion on the first Wii Remote, so it initially always read as disconnected.</li></ul>
+            </li>
+            <li>Turning weight into steering
+              <ul><li>Most of the development was a loop of standing on the board, adjusting the mapping and testing again until leaning felt like steering and not like fighting the controller.</li></ul>
+            </li>
+            <li>Safe entity cleanup
+              <ul><li>Clearing the world on game over originally destroyed the player while the game was still updating it, which crashed the Wii. Restructuring the game-state transitions fixed it.</li></ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© William Bartlett</footer>
+</body>
+</html>
