@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>William Bartlett - Below Deck</title>
+  <meta name="description" content="Deliver medicine by sea, plan routes on meagre resources, avoid what lurks below, and decide who receives your deliveries.">
+  <meta property="og:image" content="assets/img/bd-water-1.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">William Bartlett</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="cv.html">CV</a>
+        <a href="tools.html">Tools</a>
+        <a href="riffs-of-resistance.html">Riffs of Resistance</a>
+        <a href="below-deck.html" aria-current="page">Below Deck</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Below Deck</h1>
+    <p class="lead">You deliver medicine by sea for those affected by sickness. You must plan the optimal delivery route based on your meagre resources, avoiding creatures that lurk beneath the surface, and most importantly – deciding who is lucky enough to receive your deliveries.</p>
+
+    <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/F-MtSrpJV0A" title="Below Deck gameplay demo" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Created in Unreal Engine 5 by</h3>
+        <ul>
+          <li>Blake Elleveson – Game design, Programming, Audio</li>
+          <li>Ella Emery – Game design, 3D Art</li>
+          <li>Katie Manchester – Game design, Prototyping, 3D Art</li>
+          <li>Owen How – Game design, Concept art</li>
+          <li><strong>William Bartlett – Game design, Programming, Technical art</strong></li>
+        </ul>
+      </div>
+      <div>
+        <p>Below Deck was made by a team of 2nd and 3rd year Griffith University Game Design and Production students for Game Studio 1/3. We were given the prompt to create a narrative-driven, minimalist action game set aboard a mysterious cargo ship, inspired by Dredge, FAR: Changing Tides and Sea of Thieves.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>Individual Contribution</h2>
+      <p>My main role within the team was somewhat fluid, moving between game design, gameplay programming and technical art, using the Blueprints system in UE5. Some of my key contributions were:</p>
+      <ul>
+        <li>Designing a prototype for the combination player/ship controller</li>
+        <li>Water shader</li>
+        <li>Other post-process shaders (did not make the cut for the final version)</li>
+      </ul>
+      <p>This project was my first time working in Unreal Engine as well as doing technical art, so I was able to learn a lot of new techniques and technologies in the process of making this game.</p>
+    </section>
+
+    <section>
+      <h2>Water Shader</h2>
+      <div class="gallery">
+        <a href="assets/img/bd-water-1.png" target="_blank" rel="noopener"><img src="assets/img/bd-water-1.png" alt="Stylised water with seafoam around the dock and ship"></a>
+        <a href="assets/img/bd-water-2.png" target="_blank" rel="noopener"><img src="assets/img/bd-water-2.png" alt="Wave texture: panning normal maps blended together"></a>
+        <a href="assets/img/bd-water-3.png" target="_blank" rel="noopener"><img src="assets/img/bd-water-3.png" alt="Foam texture and foam/water colour, masked with DistanceToNearestSurface"></a>
+        <a href="assets/img/bd-water-4.png" target="_blank" rel="noopener"><img src="assets/img/bd-water-4.png" alt="Water absorption and caustics into the Single Layer Water material"></a>
+        <a href="assets/img/bd-water-5.png" target="_blank" rel="noopener"><img src="assets/img/bd-water-5.png" alt="Water material instance with exposed parameters"></a>
+      </div>
+      <p>Since the main focus of the game is on sailing, one of the key artistic aspects to get right is the water. The team had already decided on a stylised art style for the game, so I took on the task of creating a stylised water material/shader to replace the default UE5 water, which was much too realistic. I learnt a lot of techniques in the process, such as texture scrolling, which I used to create waves and seafoam, as well as Mesh Distance Fields and the DistanceToNearestSurface node, which was crucial to mapping the seafoam textures to the edges of objects where they meet the water. I also emphasised the customisability of the material, as we had plans to manipulate elements on the fly, such as the colour of the water, to serve gameplay elements.</p>
+    </section>
+
+    <section>
+      <h2>Post-Process Shaders</h2>
+      <div class="gallery">
+        <a href="assets/img/bd-pp-1.png" target="_blank" rel="noopener"><img src="assets/img/bd-pp-1.png" alt="Crosshatching post-process applied to shadows on the ship"></a>
+        <a href="assets/img/bd-pp-2.png" target="_blank" rel="noopener"><img src="assets/img/bd-pp-2.png" alt="Crosshatching post-process material graph"></a>
+      </div>
+      <p>Although it did not end up in the final project, I also spent some time on a post-processing shader that applied a crosshatching texture to the shadows in the scene. Working on this shader taught me a lot about texture generation and the different elements of the post-processing pipeline, and how they can be manipulated/used for mapping.</p>
+    </section>
+
+    <section>
+      <h2>Gameplay Prototyping – Player Controllers</h2>
+      <p>Early in the project I suggested that it might feel more natural for players to control the ship from a third-person perspective rather than first-person, so I also worked on implementing a basic system allowing the player to switch between controlling the player and controlling the ship. I created a custom controller Blueprint that allowed the player to swap between possessing the FirstPerson pawn and Ship pawn, as well as modifying the original ship Blueprint created by Katie to work with the same InputActions used by the FirstPerson pawn, without affecting both at the same time.</p>
+      <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/NveEloh2Sfo" title="Below Deck player/ship controller prototype" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© William Bartlett</footer>
+</body>
+</html>

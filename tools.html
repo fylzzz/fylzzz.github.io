@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>William Bartlett - Tools</title>
+  <meta name="description" content="Raylib/ENet listen server, PCG map editor and a UE5 data IO plugin.">
+  <meta property="og:image" content="assets/img/tools-net-1.gif">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">William Bartlett</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="cv.html">CV</a>
+        <a href="tools.html" aria-current="page">Tools</a>
+        <a href="riffs-of-resistance.html">Riffs of Resistance</a>
+        <a href="below-deck.html">Below Deck</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Tools</h1>
+
+    <!-- ===== Raylib / ENet Listen Server ===== -->
+    <section id="listen-server">
+      <h2>Raylib/ENet Listen Server</h2>
+      <div class="gallery">
+        <a href="assets/img/tools-net-1.gif" target="_blank" rel="noopener"><img src="assets/img/tools-net-1.gif" alt="Two clients: one hosting a listen server, one joining"></a>
+        <a href="assets/img/tools-net-2.png" target="_blank" rel="noopener"><img src="assets/img/tools-net-2.png" alt="Listen client log showing a player connecting"></a>
+      </div>
+      <p>A networked game client with server hosting capability, built using Raylib and the ENet UDP library. Forked from the <a href="https://github.com/raylib-extras/networking_example" target="_blank" rel="noopener">raylib-extras/networking_example repo</a>, the original project only included dedicated server and client builds, so I decided to create a listen server build. This project was my first time building a networked game outside of Unreal, as well as using multi-threading.</p>
+      <p><a class="btn" href="https://github.com/fylzzz/networking_example" target="_blank" rel="noopener">See project on GitHub</a></p>
+
+      <div class="split">
+        <div>
+          <h3>Features</h3>
+          <ul>
+            <li>Host &amp; client capabilities</li>
+            <li>Multi-threaded client/server design</li>
+            <li>Supports up to 8 players (with ability to scale to more)</li>
+          </ul>
+          <h3>Details</h3>
+          <ul>
+            <li>Utilised Win32 threads</li>
+            <li>Designed to start server as separate thread on hosting client only</li>
+            <li>Client can enter any server IP to join</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Challenges</h3>
+          <ul>
+            <li>Multi-threading
+              <ul>
+                <li>Needed to refactor parts of the server to avoid race conditions</li>
+                <li>Saved performance by only starting the server thread on hosting clients</li>
+              </ul>
+            </li>
+            <li>Networking
+              <ul>
+                <li>Learnt how to use the ENet UDP library to autoconnect the host to their local server</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PCG Map Editor ===== -->
+    <section id="pcg-map-editor">
+      <h2>PCG Map Editor</h2>
+      <img src="assets/img/tools-pcg.gif" alt="PCG Map Editor generating maps with cellular automata">
+      <p>A lightweight map editor application I created with C++ using the Raylib graphics library for 3147GFS Advanced Games Programming. This project was my first foray into the C/C++ family, as well as working outside of a game engine. I learnt and utilised a variety of modern programming principles such as OOP and RAII.</p>
+      <p><a class="btn" href="https://github.com/fylzzz/PCG-Map-Editor" target="_blank" rel="noopener">See project on GitHub</a></p>
+
+      <div class="split">
+        <div>
+          <h3>Features</h3>
+          <ul>
+            <li>3 PCG algorithms (Cellular Automata, Perlin Noise, Random)</li>
+            <li>Manual tile editing</li>
+            <li>Save/load maps as custom .fyl binary file</li>
+          </ul>
+          <h3>Details</h3>
+          <ul>
+            <li>Implemented cellular automata and Perlin noise functions in C++</li>
+            <li>Utilised basic Win32 functions for save/open explorer dialogs</li>
+            <li>Designed modular functions for re-use in further projects (this tool is intended for a future game project)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Challenges</h3>
+          <ul>
+            <li>Memory management
+              <ul><li>Utilised smart pointers to manage generator types, eliminating the need for manual new/delete</li></ul>
+            </li>
+            <li>Object oriented design
+              <ul><li>Generators are derived from a base MapGenerator class, defining their own generation logic</li></ul>
+            </li>
+            <li>PCG algorithms
+              <ul><li>Designed &amp; implemented a cellular automata algorithm from scratch</li></ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== UE5.4 Data IO Plugin ===== -->
+    <section id="ue5-data-io">
+      <h2>UE5.4 Data IO Plugin</h2>
+      <img src="assets/img/tools-ue5.png" alt="BP_DataLoader loading a .fyl map file and printing it in UE5">
+      <p>A simple UE5.4 Blueprint Function Library plugin built for importing map data exported from the PCG Map Editor above. This project was my first time using C++ in Unreal Engine, learning Unreal-specific syntax and creating plugins.</p>
+      <p><a class="btn" href="https://github.com/fylzzz/UE5-Plugins/tree/main" target="_blank" rel="noopener">See plugin on GitHub</a></p>
+
+      <div class="split">
+        <div>
+          <h3>Details</h3>
+          <ul>
+            <li>Can load any file (.txt, .fyl, etc.) as a string</li>
+            <li>Built as a plugin, so it is reusable in any compatible project</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Challenges</h3>
+          <ul>
+            <li>Working with Unreal Engine 5 C++
+              <ul><li>Utilises UE5 custom library types (FString)</li></ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© William Bartlett</footer>
+</body>
+</html>

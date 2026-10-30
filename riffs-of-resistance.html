@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>William Bartlett - Riffs of Resistance</title>
+  <meta name="description" content="A rhythm-based action game about saving the world from AI-generated music, one robot at a time.">
+  <meta property="og:image" content="assets/img/riffs-cover.jpg">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">William Bartlett</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="cv.html">CV</a>
+        <a href="tools.html">Tools</a>
+        <a href="riffs-of-resistance.html" aria-current="page">Riffs of Resistance</a>
+        <a href="below-deck.html">Below Deck</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Riffs of Resistance</h1>
+    <img class="hero-img" src="assets/img/riffs-cover.jpg" alt="Riffs of Resistance key art">
+    <p class="lead">A rhythm-based action game about saving the world from AI-generated music, one robot at a time.</p>
+
+    <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/bwJ_pNmSjJo" title="Riffs of Resistance gameplay demo" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Created in Unity 6 by</h3>
+        <ul>
+          <li>Ivan Karkov – Assistant Producer, 3D Artist, 3D Animator</li>
+          <li>Jacob Pollard – Technical Artist, 3D Animator</li>
+          <li>Nathan Camilleri – Gameplay Programmer</li>
+          <li>Lily Rout – 2D Artist</li>
+          <li>Nico O'Sullivan – 2D Artist</li>
+          <li>Skye O'Niell – 3D Artist</li>
+          <li><strong>William Bartlett – Composer, Sound Programmer</strong></li>
+        </ul>
+      </div>
+      <div>
+        <p>Riffs of Resistance was produced by a team of 2nd and 3rd year Griffith University Game Design and Production students for Games Studio 2025. The team was tasked with creating a rhythm-based action game inspired by the likes of Hi-Fi Rush and the Devil May Cry series.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>Individual Contribution</h2>
+      <p>My role in this project was as composer, sound designer and sound programmer. Despite the initial pitch of the game being heavily focused around rhythm aspects, I joined the team halfway through development, where I was solely responsible for planning and assisting in implementing rhythm elements, as well as designing SFX and composing music for the project. I also used the project as an opportunity to learn the audio middleware FMOD, which ended up being essential to adding robust musical elements to the game.</p>
+      <h3>Deliverables</h3>
+      <ul>
+        <li>4 unique music tracks</li>
+        <li>24+ SFX</li>
+        <li>Designed &amp; implemented a framework for syncing gameplay events to music using the FMOD Unity API</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>SFX Design</h2>
+      <p>SFX design was a key component to bringing this project, and the game's world, to life. A challenging part of designing and producing SFX for this project was balancing realism and stylisation: keeping players immersed while still conveying fictionality, and implementing conventional non-diegetic audio in a satisfying way. Throughout production, I designed multiple versions of key SFX, obtaining feedback from our producers and playtesters on aspects such as impact and clutter. Here is a showcase reel of some of the sound design on this project:</p>
+      <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/5aHV0_rc70Q" title="Riffs of Resistance SFX showreel" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </div>
+    </section>
+
+    <section>
+      <h2>Music and Implementation</h2>
+      <p>In this project, I was also tasked with composing the game's soundtrack. At first, the game's visuals were very grimy and dystopian, so initially the soundtrack leant toward a synth-laden DnB style. However, after the visuals changed to a more comic book, hyper-stylised aesthetic, I approached the team about pivoting to a more hip-hop/rock/jazz soundtrack, heavily inspired by games such as MadWorld and Persona 3, genres I am much more comfortable composing in.</p>
+      <p>One of the main considerations while composing this soundtrack was cohesion, especially for tracks L1M1 and L1M2, as they had to flow in and out of each other with very little notice based on the current gameplay situation. Knowing that I could quantise track changes, I wrote both L1M1 and L1M2 on a bar-by-bar basis, where each bar could stand alone as its own musical idea (having some form of resolution each bar), while still contributing to the greater song. I also used similar instrumentation across both tracks, specifically the rhythm guitar prominent in L1M1, to ground the listener and help with transitioning by keeping a constant element.</p>
+      <!-- Optional: embed your tracks here (SoundCloud/YouTube iframe, or <audio controls src="assets/audio/L1M1.mp3"></audio>) -->
+    </section>
+
+    <section>
+      <h2>FMOD and Rhythm Elements</h2>
+      <p>This project was also an opportunity for me to learn about using audio middleware, specifically FMOD. I chose FMOD because of its ease of integration, beginner-friendliness, and the multitude of resources for the specific use cases required in our project.</p>
+      <p>Using FMOD and its scripting examples, I set up a <a href="https://github.com/Realbitters1765/GameStudioProject/blob/main/Assets/MusicManager.cs" target="_blank" rel="noopener">MusicManager prefab</a> for the scene to handle loading/playing the background music, reading timeline data for use in the rhythm-based gameplay elements, and transitioning between loops based on the in-game combat state. Using these features, our gameplay programmer was able to sync in-game events to the music (down to the beat), as well as change the background music on the fly to create a more immersive experience.</p>
+      <div class="gallery">
+        <a href="assets/img/riffs-1.png" target="_blank" rel="noopener"><img src="assets/img/riffs-1.png" alt="MusicManager.cs: class fields and TimelineInfo"></a>
+        <a href="assets/img/riffs-2.png" target="_blank" rel="noopener"><img src="assets/img/riffs-2.png" alt="MusicManager.cs: Start(), creating the FMOD instance and beat callback"></a>
+        <a href="assets/img/riffs-3.png" target="_blank" rel="noopener"><img src="assets/img/riffs-3.png" alt="MusicManager.cs: BeatEventCallback reading tempo, beat and bar"></a>
+        <a href="assets/img/riffs-4.png" target="_blank" rel="noopener"><img src="assets/img/riffs-4.png" alt="FMOD Studio timeline for L2_BGM with calm/action regions and Combat parameter"></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© William Bartlett</footer>
+</body>
+</html>
