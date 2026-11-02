@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>William Bartlett - Amp'd</title>
+  <meta name="description" content="A musical-themed, Quake-like arena shooter with online multiplayer.">
+  <meta property="og:image" content="assets/img/ampd-cover.jpg">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">William Bartlett</a>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="cv.html">CV</a>
+        <a href="engen7.html">EnGen7</a>
+        <a href="tools.html">Tools</a>
+        <a href="amp'd.html" aria-current="page">Amp'd</a>
+        <a href="riffs-of-resistance.html">Riffs of Resistance</a>
+        <a href="below-deck.html">Below Deck</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>Amp'd</h1>
+    <img class="hero-img" src="assets/img/ampd-cover.jpg" alt="Amp'd key art">
+    <p class="lead">A musical-themed, Quake-like arena shooter with online multiplayer.</p>
+
+    <div class="video">
+      <iframe src="https://www.youtube-nocookie.com/embed/ppu2fDPErzk" title="Amp'd gameplay demo" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Created in Unreal Engine 5 by</h3>
+        <ul>
+          <li>Blake Ellevsen – Associate Producer, Programmer, Music/SFX</li>
+          <li>Ali Strydom – Associate Producer, 2D Artist, 3D Artist, Texture Artist, Level Designer, VFX artist</li>
+          <li>Tiarna Lippiatt – 2D Artist, 3D Artist, Texture Artist</li>
+          <li>Jolie Moh – 3D Artist, Rigger, Animator</li>
+          <li>Henry Charlesworth-Smith – 2D Artist, Texture Artist</li>
+          <li><strong>William Bartlett – Programmer, Music/SFX</strong></li>
+          <li>Aminda Winje – 3D Artist, Texture Artist</li>
+          <li>Philip Austmo-Lund –  3D Artist, Texture Artist, Level Designer</li>
+          <li>Cairo Venn – 2D Artist, 3D Artist, Texture Artist</li>
+          <li>Oscar Swain – Programmer</li>
+          <li>Nyx Maryam – 2D Artist, Programmer</li>
+        </ul>
+      </div>
+      <div>
+        <p>Amp'd was produced by a team of 2nd and 3rd year Griffith University Game Design and Production students for Games Studio 2026. The team was tasked with creating a musical-themed arena shooter, inspired by games such as Quake and Splatoon.</p>
+      </div>
+    </div>
+
+    <section>
+      <h2>Individual Contribution</h2>
+      <p>My role in this project was primarily network programming and designing/composing gameplay SFX and the main gameplay theme. Coming into the project after the prototyping phase, I was challenged with working inside a pre-existing codebase to implement a robust online networking solution, helping take the LAN-focused prototype to a fully playable experience.</p>
+      <h3>Deliverables</h3>
+      <ul>
+        <li>Online multiplayer framework</li>
+        <li>SFX for 4 instrument-themed guns</li>
+        <li>Main musical theme for the arena</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Designing Online Multiplayer</h2>
+      <p>Initially, Amp'd was pitched as a LAN-multiplayer focused game, and during the prototyping phase was designed and programmed with this assumption in mind. I joined the project after this prototype was completed, however around this time the team was discussing how to better playtest the game, considering the limitation that players needed to be on the same network to play together.
+        This led to my decision to focus my contribution on designing and implementing a complete online multiplayer system, allowing players to host and join sessions from anywhere at any time. In my time working on the project, I scoped, designed and shipped lobby hosting/management and server browser systems, while maintaining the pre-existing networked gameplay functions. 
+      </p>
+      <h3>The Solution</h3>
+      <p>Since the project was already in Unreal Engine, after some research I chose to utilise Epic Online Services (with the EOS Integration Kit plugin: https://github.com/betidestudio/EOSIntegrationKit) While I would have liked to build the system from scratch, using a plugin was the best choice considering the scope and timeframe of the project.
+        Using EOS also allowed me to simply build the lobby management and server browser systems on top of the exisiting netcode, without having to change any gameplay features by replacing LAN-based blueprint nodes with their EOS counterparts.
+      </p>
+      </p>One of the main challenges I faced with developing the system however, was storing the server data to allow players to safely leave/destroy lobbies.
+        Players join a lobby from the main menu scene, and are then loaded into the map scene for the pre-game lobby and gameplay, so I had to figure out a solution for saving data such as the lobby id/name (required for the Destroy Lobby node,) without it being erased between scenes. This problem took quite a while to solve until I came across a little-used GameInstance class in UE5, which exists locally for the player, and is not cleared when changing scenes, making it perfect for storing this kind of data
+      </p>
+      <p>Below are some samples of the lobby management systems:</p>
+      <div class="gallery">
+        <a href="assets/img/ampd-1.png" target="_blank" rel="noopener"><img src="assets/img/ampd-1.png" alt="Main Menu Join logic"></a>
+        <a href="assets/img/ampd-2.png" target="_blank" rel="noopener"><img src="assets/img/ampd-2.png" alt="Main Menu Browser logic"></a>
+        <a href="assets/img/ampd-3.png" target="_blank" rel="noopener"><img src="assets/img/ampd-3.png" alt="Client Disconnect logic"></a>
+        <a href="assets/img/ampd-4.png" target="_blank" rel="noopener"><img src="assets/img/ampd-4.png" alt="Main Menu Host logic"></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">© William Bartlett</footer>
+</body>
+</html>

@@ -16,6 +16,7 @@
         <a href="cv.html">CV</a>
         <a href="engen7.html" aria-current="page">EnGen7</a>
         <a href="tools.html">Tools</a>
+        <a href="amp'd.html">Amp'd</a>
         <a href="riffs-of-resistance.html">Riffs of Resistance</a>
         <a href="below-deck.html">Below Deck</a>
       </nav>
@@ -24,9 +25,7 @@
 
   <main>
     <h1>EnGen7</h1>
-    <!-- Hero image: add a screenshot or photo of the engine running on a Wii, e.g.
     <img class="hero-img" src="assets/img/engen7-hero.png" alt="EnGen7 running on Wii hardware">
-    -->
     <p class="lead">A custom C++ game engine for Generation 7 console homebrew (currently limited to Nintendo Wii), built around an Entity Component System. I've used it to ship a game jam entry and an experimental Balance Board shooter, and I'm currently extending it with 3D rigid-body physics.</p>
 
     <p><a class="btn" href="https://github.com/fylzzz/wiiEngine" target="_blank" rel="noopener">See project on GitHub</a></p>
@@ -83,9 +82,6 @@
           <!-- systems -->
           <rect x="20" y="246" width="720" height="34" rx="8" class="d-box"/>
           <text x="380" y="268" class="d-t">Render · Physics · Animation · Audio</text>
-          <!-- platform -->
-          <rect x="20" y="290" width="720" height="34" rx="8" class="d-box d-platform"/>
-          <text x="380" y="312" class="d-s">raylib4Gamecube (OpenGL 1.1)  ·  libogc2: WPAD, ASND, SD card  ·  Wii hardware</text>
         </svg>
       </figure>
 
@@ -158,9 +154,17 @@
       <!--<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="RFDS game jam gameplay" allow="fullscreen" allowfullscreen loading="lazy"></iframe></div>
       -->
       <!-- TODO: check this intro. Add the jam's date/length, the brief, your team (if any) and any result. -->
-      <p>The first real test of the engine was the RFDS Game Jam, where I built a collection of motion-controlled medical microgames for the Wii. Each microgame is its own scene, launched from a main menu, and each uses a different Wii input: pointing with the Wii Remote, or physically twisting it using the MotionPlus gyroscope.</p>
+      <p>The first real test of the engine was the RFDS Game Jam, where the team built a collection of motion-controlled medical microgames for the Wii. Each microgame is its own scene, launched from a main menu, and each uses a different Wii input: pointing with the Wii Remote, or physically twisting it using the MotionPlus gyroscope.</p>
 
       <div class="split">
+        <div>
+          <h3>Created by</h3>
+        <ul>
+          <li><strong>William Bartlett – Engine programming, Gameplay programming</strong></li>
+          <li>Eladio Abarca – Gameplay programming</li>
+          <li>Lily Rout – 2D Artist, Designer</li>
+        </ul>
+        </div>
         <div>
           <h3>Features</h3>
           <ul>
@@ -170,6 +174,7 @@
             <li>Rotation-based gameplay using the MotionPlus gyroscope</li>
           </ul>
         </div>
+      </div>
         <div>
           <h3>Challenges</h3>
           <ul>
@@ -184,7 +189,6 @@
             </li>
           </ul>
         </div>
-      </div>
       <p>The jam proved that the engine could carry a complete game from start to finish, which is what convinced me to keep building on it.</p>
     </section>
 
